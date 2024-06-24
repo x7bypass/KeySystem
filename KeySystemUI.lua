@@ -4,9 +4,12 @@ This example uses the KeyUI
 ]]--
 
 local function CreateKeyWindow(settings)
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
     local UserInputService = game:GetService("UserInputService")
+    local TweenService = game:GetService("TweenService")
+    local RunService = game:GetService("RunService")
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local Mouse = LocalPlayer:GetMouse()
+    local HttpService = game:GetService("HttpService")
 
     local screenGui = Instance.new("ScreenGui")
     screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
