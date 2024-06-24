@@ -1,4 +1,8 @@
--- Buat fungsi untuk membuat window key system
+--[[
+Key System Ui 
+This example uses the KeyUI 
+]]--
+
 local function CreateKeyWindow(settings)
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
@@ -37,7 +41,7 @@ local function CreateKeyWindow(settings)
     closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
     closeButton.Parent = frame
-      closeButton.MouseButton1Click:Connect(function()
+     closeButton.MouseButton1Click:Connect(function()
         screenGui:Destroy()
         if settings.Cancelled then
             settings.Cancelled()
@@ -94,13 +98,25 @@ local checkKeyButton = Instance.new("TextButton")
     checkKeyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
     checkKeyButton.Parent = frame
 
+    -- Label untuk pesan "Link copied!"
+    local linkCopiedLabel = Instance.new("TextLabel")
+    linkCopiedLabel.Size = UDim2.new(0.8, 0, 0, 30)
+    linkCopiedLabel.Position = UDim2.new(0.1, 0, 0.8, 0)
+    linkCopiedLabel.Text = ""
+    linkCopiedLabel.Font = Enum.Font.SourceSansBold
+    linkCopiedLabel.TextSize = 18
+    linkCopiedLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+    linkCopiedLabel.BackgroundTransparency = 1
+    linkCopiedLabel.Parent = frame
+
     -- Fungsi untuk Get Key
     getKeyButton.MouseButton1Click:Connect(function()
         -- Mengarahkan ke link untuk mendapatkan key
         local getKeyLink = settings.GetKeyLink or "https://example.com/"
-        game:GetService("GuiService"):OpenBrowserWindow(getKeyLink)
-        validationLabel.Text = "Link copied"
-        validationLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        setclipboard(getKeyLink)
+        linkCopiedLabel.Text = "Link copied!"
+        wait(2)
+        linkCopiedLabel.Text = ""
     end)
 
     -- Fungsi untuk Check Key
@@ -114,7 +130,7 @@ local checkKeyButton = Instance.new("TextButton")
                 settings.Passed()
             end
         else
-            validationLabel.Text = "Not valid"
+            validationLabel.Text = "Key is not valid"
             validationLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
             if settings.Failed then
                 settings.Failed()
@@ -134,3 +150,35 @@ local checkKeyButton = Instance.new("TextButton")
         end
     }
 end
+
+-- Contoh penggunaan
+local KeyUI = CreateKeyWindow({
+    KeySettings = {
+        Key = "123" -- ganti ini dengan key yang diinginkan
+    },
+    GetKeyLink = "https://example.com", -- ganti ini dengan link yang diinginkan
+    Theme = {
+        Text = "00ff00",
+        Border = "00ff00", -- ganti ini dengan warna border yang diinginkan
+        Background = "000000"
+    },
+    Text = {
+        Title = "HG HUB Solara", -- ganti ini dengan teks yang diinginkan
+        Body = "you",
+        Fail = "Access denied",
+        Pass = "Access granted"
+    }
+})
+
+-- Events Functions
+KeyUI.Failed(function()
+    print("You gave a wrong Key")
+end)
+
+KeyUI.Passed(function()
+    print("You gave the correct key")
+end)
+
+KeyUI.Cancelled(function()
+    print("You cancelled the UI")
+end)
