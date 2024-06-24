@@ -134,35 +134,3 @@ local checkKeyButton = Instance.new("TextButton")
         end
     }
 end
-
--- Contoh penggunaan
-local KeyUI = CreateKeyWindow({
-    KeySettings = {
-        Key = "123" -- ganti ini dengan key yang diinginkan
-    },
-    GetKeyLink = "https://example.com", -- ganti ini dengan link yang diinginkan
-    Theme = {
-        Text = "00ff00",
-        Border = "00ff00", -- ganti ini dengan warna border yang diinginkan
-        Background = "000000"
-    },
-    Text = {
-        Title = "Key System",
-        Body = "Enter the key to access the contents of the script.",
-        Fail = "Access denied",
-        Pass = "Access granted"
-    }
-})
-
--- Events Functions
-KeyUI.Failed(function()
-    print("You gave a wrong Key")
-end)
-
-KeyUI.Passed(function()
-    print("You gave the correct key")
-end)
-
-KeyUI.Cancelled(function()
-    print("You cancelled the UI")
-end)
